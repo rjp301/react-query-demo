@@ -29,11 +29,13 @@ export default function Adder(): ReturnType<React.FC> {
   return (
     <div className="flex gap-2 items-center">
       <Input
+        autoFocus
         ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className="text-md px-4"
         placeholder="Add a todo..."
+        onFocus={(e) => e.target.select()}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             create();
