@@ -1,9 +1,11 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Button } from "./components/ui/button";
-import { getTodos } from "./lib/api";
+import { deleteCompletedTodos, getTodos } from "./lib/api";
 import { Collections } from "./lib/types";
 import Todo from "./components/todo";
 import Adder from "./components/adder";
+import { queryClient } from "./lib/query";
+import TodoList from "./components/todo-list";
 
 function App() {
   const todosQuery = useQuery({
@@ -11,22 +13,19 @@ function App() {
     queryFn: getTodos,
   });
 
+  const deleteCompleteMutation = useMutation({
+    mutationFn: () => deleteCompletedTodos(),
+    onSuccess: () => {
+      queryClient.invalidateQueries([Collections.Todos]);
+    },
+  });
+
   return (
     <main className="h-screen w-full flex items-center justify-center overflow-hidden">
-      <div className="max-h-[40rem] max-w-[25rem] w-full h-full p-4 flex flex-col gap-4">
+      <div className="min-h-[40rem] max-w-[25rem] max-h-screen w-full p-4 flex flex-col gap-4">
         <h1 className="text-5xl font-bold text-center mb-6">Todos</h1>
         <Adder />
-        <div className="flex flex-col gap-2 overflow-auto">
-          {todosQuery.data?.map((todo) => (
-            <Todo key={todo.id} todo={todo} />
-          ))}
-        </div>
-        <Button
-          variant="secondary"
-          disabled={todosQuery.data?.filter((i) => i.complete).length === 0}
-        >
-          Delete Completed
-        </Button>
+        <TodoList />
       </div>
     </main>
   );

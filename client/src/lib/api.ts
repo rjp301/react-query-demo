@@ -15,9 +15,11 @@ export const deleteTodo = (id: string) =>
 export const updateTodoComplete = (id: string, complete: boolean) =>
   pb.collection(Collections.Todos).update(id, { complete });
 
-export const deleteCompletedTodos = () => {
-  const completed = pb
+export const deleteCompletedTodos = async () => {
+  const completed = await pb
     .collection(Collections.Todos)
     .getFullList({ filter: "complete = true" });
-  console.log(completed);
+  return Promise.all(
+    completed.map((todo) => pb.collection(Collections.Todos).delete(todo.id))
+  );
 };

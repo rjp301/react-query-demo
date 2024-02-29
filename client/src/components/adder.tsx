@@ -8,6 +8,9 @@ import { Collections } from "@/lib/types";
 import { queryClient } from "@/lib/query";
 
 export default function Adder(): ReturnType<React.FC> {
+  const [value, setValue] = React.useState("");
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   const addTodoMutation = useMutation({
     mutationFn: addTodo,
     onSuccess: () => {
@@ -15,8 +18,13 @@ export default function Adder(): ReturnType<React.FC> {
     },
   });
 
-  const [value, setValue] = React.useState("");
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const create = () => {
+    if (value) {
+      addTodoMutation.mutate(value);
+      setValue("");
+      inputRef.current?.focus();
+    }
+  };
 
   return (
     <div className="flex gap-2 items-center">
@@ -28,13 +36,13 @@ export default function Adder(): ReturnType<React.FC> {
         placeholder="Add a todo..."
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            addTodoMutation.mutate(value);
-            setValue("");
+            create();
           }
         }}
       />
-      <Button size="icon" className="aspect-square" type="submit">
-        <Plus size="1.2rem" />
+      <Button onClick={create} disabled={!value}>
+        <Plus size="1.2rem" className="mr-2" />
+        Add
       </Button>
     </div>
   );

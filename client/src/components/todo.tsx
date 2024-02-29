@@ -1,12 +1,12 @@
 import { Collections, TodosResponse } from "@/lib/types";
 import React from "react";
 import { Button } from "./ui/button";
-import { CheckIcon } from "@radix-ui/react-icons";
 import { useMutation } from "react-query";
 import { deleteTodo, updateTodoComplete } from "@/lib/api";
 import { queryClient } from "@/lib/query";
 import { cn } from "@/lib/utils";
 import { Card } from "./ui/card";
+import { Check } from "lucide-react";
 
 interface Props {
   todo: TodosResponse;
@@ -32,7 +32,7 @@ const Todo: React.FC<Props> = (props) => {
   return (
     <Card
       className={cn(
-        "flex bg-card rounded-md p-2 gap-2 items-center text-sm",
+        "flex rounded-md p-2 gap-2 items-center text-sm",
         todo.complete && "bg-card/50"
       )}
     >
@@ -41,7 +41,7 @@ const Todo: React.FC<Props> = (props) => {
         size="icon"
         onClick={() => completeMutation.mutate()}
       >
-        <CheckIcon />
+        <Check size="1rem" />
       </Button>
       <span
         className={cn(
@@ -53,10 +53,11 @@ const Todo: React.FC<Props> = (props) => {
       </span>
       <Button
         size="sm"
-        variant="destructive"
+        variant="ghost"
+        className="text-muted-foreground"
         onClick={() => deleteMutation.mutate()}
       >
-        Delete
+        delete
       </Button>
     </Card>
   );
