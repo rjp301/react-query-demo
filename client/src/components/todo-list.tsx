@@ -22,7 +22,7 @@ export default function TodoList(): ReturnType<React.FC> {
 
   if (todosQuery.isLoading) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center min-h-20">
         <p className="text-muted-foreground text-sm flex">
           <Loader2 className="animate-spin mr-2 text-primary" size="1.2rem" />
           Loading...
@@ -33,11 +33,20 @@ export default function TodoList(): ReturnType<React.FC> {
 
   if (todosQuery.isSuccess && todosQuery.data?.length === 0) {
     return (
-      <div className="flex-1 flex items-center justify-center text-sm">
+      <div className="flex-1 flex items-center justify-center text-sm min-h-20">
         <p className="text-muted-foreground">No todos!</p>
       </div>
     );
   }
+
+  if (todosQuery.isError) {
+    return (
+      <div className="flex-1 flex items-center justify-center text-sm min-h-20">
+        <p className="text-muted-foreground">An error occurred</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex flex-col gap-2 overflow-auto">
