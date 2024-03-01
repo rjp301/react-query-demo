@@ -39,19 +39,22 @@ export default function TodoList(): ReturnType<React.FC> {
     );
   }
   return (
-    <div className="flex-1 overflow-hidden flex flex-col gap-3">
+    <>
       <div className="flex flex-col gap-2 overflow-auto">
         {todosQuery.data?.map((todo) => (
           <Todo key={todo.id} todo={todo} />
         ))}
       </div>
-      <Button
-        variant="secondary"
-        disabled={todosQuery.data?.filter((i) => i.complete).length === 0}
-        onClick={() => deleteCompleteMutation.mutate()}
-      >
-        Delete Completed
-      </Button>
-    </div>
+      <footer className="sticky bottom-0 bg-background py-3">
+        <Button
+          className="w-full"
+          variant="secondary"
+          disabled={todosQuery.data?.filter((i) => i.complete).length === 0}
+          onClick={() => deleteCompleteMutation.mutate()}
+        >
+          Delete Completed
+        </Button>
+      </footer>
+    </>
   );
 }

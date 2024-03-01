@@ -4,15 +4,18 @@ import TodoList from "./components/todo-list";
 
 function App(): ReturnType<React.FC> {
   return (
-    <main className="h-screen w-full flex items-center justify-center overflow-hidden">
-      <div className="min-h-[60vh] max-w-[25rem] max-h-screen w-full p-4 flex flex-col gap-4">
-        <h1 className="text-5xl font-bold mb-6 flex items-center justify-center gap-5">
+    <main className="w-full flex justify-center flex-col">
+      <header className="sticky top-0 container max-w-sm flex flex-col gap-6 pb-4 pt-6 bg-background">
+        <h1 className="w-full text-5xl font-bold flex items-center justify-center gap-5">
           <CheckCircle size="3rem" className="text-primary" />
           Todos
         </h1>
+
         <Adder />
+      </header>
+      <section className="container max-w-sm">
         <TodoList />
-      </div>
+      </section>
     </main>
   );
 }
